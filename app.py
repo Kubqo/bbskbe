@@ -1,48 +1,43 @@
 from datetime import datetime
 import json
-from flask import Flask, request
+from flask import Flask, request, render_template
+
 
 app = Flask(__name__)
 
-fakeDB = []
+
+fakeDBcoordinates = []
+fakeDBorders = []	
 
 
 @app.route('/gps', methods=['GET', 'POST'])
 def date():
-    content_type = request.headers.get('Content-Type')
+    fakeDBcoordinates.append(request.json)
+    return {'status': 'ok'}, 200
 
-    # if (content_type == 'application/json'):
-    now = datetime.now()
-    string_date = now.strftime("%m/%d/%Y")
-    string_time = now.strftime("%H:%M:%S")
-
-    print(string_date + string_time)
-    print(request.json)
-    fakeDB.append(
-        {**request.json, "date": string_date, "time": string_time})
-    print(fakeDB)
-    return {'date': string_date, 'time': string_time}, 200
-    # else:
-    #     return 'Content-Type not supported!'
+@app.route('/orders', methods=['GET', 'POST'])
+def date():
+    fakeDBorders.append(request.json)
+    return {'status': 'ok'}, 200
 
 
-@app.route('/delete', methods=['GET', 'POST'])
+@ app.route('/delete', methods=['GET', 'POST'])
 def delete():
-    for _ in fakeDB:
-        fakeDB.pop()
-    fakeDB.pop()
-    return 'fakeDB is empty', 200
+    fakeDBcoordinates.clear()
+    return 'fakeDBcoordinates is empty', 200
 
 
-@app.route('/', methods=['GET', 'POST'])
+@ app.route('/', methods=['GET', 'POST'])
 def home():
     res = ''
 
-    for i in range(len(fakeDB)-1, -1, -1):
-        res += "<p>" + fakeDB[i]['latitude'] + ' ' + fakeDB[i]['longitude'] + \
-            ' ' + fakeDB[i]['date'] + ' ' + fakeDB[i]['time'] + "</p>"
+    for i in range(len(fakeDBcoordinates)-1, -1, -1):
+        res += "<p>" + fakeDBcoordinates[i]['latitude'] + ' ' + fakeDBcoordinates[i]['longitude'] + \
+            ' ' + fakeDBcoordinates[i]['date'] + ' ' + fakeDBcoordinates[i]['time'] + "</p>"
 
-    return res, 200
+
+    return render_template('index.html', coors=res, orders=fakeDBorders) 
+
 
 
 if __name__ == '__main__':
