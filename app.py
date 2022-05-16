@@ -1,6 +1,7 @@
 from datetime import datetime
 import json
 from flask import Flask, request, render_template
+import threading
 
 
 app = Flask(__name__)
@@ -16,7 +17,7 @@ def date():
     return {'status': 'ok'}, 200
 
 @app.route('/orders', methods=['GET', 'POST'])
-def date():
+def orders():
     fakeDBorders.append(request.json)
     return {'status': 'ok'}, 200
 
@@ -29,14 +30,7 @@ def delete():
 
 @ app.route('/', methods=['GET', 'POST'])
 def home():
-    res = ''
-
-    for i in range(len(fakeDBcoordinates)-1, -1, -1):
-        res += "<p>" + fakeDBcoordinates[i]['latitude'] + ' ' + fakeDBcoordinates[i]['longitude'] + \
-            ' ' + fakeDBcoordinates[i]['date'] + ' ' + fakeDBcoordinates[i]['time'] + "</p>"
-
-
-    return render_template('index.html', coors=res, orders=fakeDBorders) 
+    return render_template('main.html', coors=fakeDBcoordinates, orders=fakeDBorders) 
 
 
 

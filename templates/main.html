@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  </head>
+  <body style="margin: 0; width: 100vw; height: 100vh">
+    <script>
+      setTimeout(function () {
+        window.location.reload(1);
+      }, 1000);
+    </script>
+    <div
+      style="
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      "
+    >
+      <div style="border: 1px solid red; width: 100vh; height: 100vh">
+        {% for item in coors %}
+        <p>
+          {{item.latitude}}, {{item.longitude}}, {{item.time}}, {{item.date}}
+        </p>
+        {% endfor %}
+      </div>
+      <div style="border: 1px solid blue; width: 100vh; height: 100vh">
+        {% for item in orders %}
+        <p>{{item.id}}, {{item.dateTime}}, {{item.busLine}}, {{item.amount}}</p>
+        {% endfor %}
+      </div>
+    </div>
+  </body>
+</html>
