@@ -9,6 +9,7 @@ RUN mkdir /app
 WORKDIR /app
 
 COPY app.py /app
+COPY templates /app/templates
 
 ENV FLASK_APP=app.py
 
