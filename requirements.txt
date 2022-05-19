@@ -2,3 +2,5 @@ pip
 flask    
 flask_restful
 datetime
+requests
+flask_socketio
